@@ -1,7 +1,6 @@
 //============================================================================
 // Name        : sdf.cpp
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 inline int mini(int a, int b, int c)
