@@ -3,7 +3,7 @@
 #include <iostream>
 using namespace std;
 
-inline int mini(unsigned long long a, unsigned long long b, unsigned long long c)
+inline int mini(int a, int b, int c)
 {
 	if (a>b)
 	{
@@ -16,19 +16,25 @@ inline int mini(unsigned long long a, unsigned long long b, unsigned long long c
 	}
 }
 int main() {
-	unsigned long long a, b, c, x, y, z;
-	unsigned long long n;
+	int a, b, c, x, y, z;
+	int n;
 	cin>>a>>b>>c;
 	cin>>n;
-	unsigned long long *F=new unsigned long long [n+1];
+	int *F=new int [n+1];
 	F[0] = 0;
-	for (unsigned long long i=1; i<=n; i++)
+	int counter=0;
+	for (int i=1; i<=n; i++)
 	{
-		x=F[max((unsigned long long)0, i-28)];
-		y=F[max((unsigned long long)0, i-7)];
-		z=F[i-1];
-		F[i]=mini(x+c, y+b, z+a);
+		x=F[max(0, i-28)-counter];
+		y=F[max(0, i-7)-counter];
+		z=F[i-1-counter];
+		F[i-counter]=mini(x+c, y+b, z+a);
+		if (i-counter>28)
+		{
+            F+=1;
+            counter+=1;
+		}
     }
-    cout<<F[n];
+    cout<<"Ans: "<<F[n-counter]<<endl;
 	return 0;
 }
