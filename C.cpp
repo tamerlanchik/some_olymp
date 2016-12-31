@@ -4,8 +4,8 @@
 using namespace std;
 int main()
 {
-	long long n, m;
-	long long x, y;
+	unsigned long int n, m;
+	unsigned long int x, y;
 	cin >> n >> m;
 	//vector <unsigned int> *a=new vector<unsigned int>;
 	//a->resize(n);
@@ -13,7 +13,7 @@ int main()
 	for (auto i = 0; i < n; i++)
 		cin >> a[i];
 
-	vector<long long>pars;
+	vector<unsigned long int>pars;
 	for (auto i = 0; i < n; i++)
 	{
 		for (auto j = i + 1; j < n; j++)
@@ -31,19 +31,19 @@ int main()
 		F[x - 1][y - 1] = true;
 		F[y - 1][x - 1] = true;
 	}
-	vector<vector<long long>> dist(n, vector<long long>(n, -1));
+	vector<vector<unsigned long int>> dist(n, vector<unsigned long int>(n, -1));
 	for (auto i = 0; i < n; i++)
 		dist[i][i] = 0;
-	long long i;
+	unsigned long int i;
 	for (auto k = 0; k < pars.size(); k += 2)
 	{
 		i = pars[k];
-		queue<long long> q;
+		queue<unsigned long int> q;
 		q.push(i);
 		while (!q.empty())
 		{
-			long long u = q.front(); q.pop();
-			for (long long v = 0; v < n; v++)
+			unsigned long int u = q.front(); q.pop();
+			for (unsigned long int v = 0; v < n; v++)
 				if (F[u][v] == true && dist[i][v] == -1)
 				{
 					dist[i][v] = dist[i][u] + 1;
@@ -51,8 +51,8 @@ int main()
 				}
 		}
 	}
-	long long ans = 1000000000;
-	long long aw;
+	unsigned long int ans = 1000000000;
+	unsigned long int aw;
 	for (auto i = 0; i < pars.size(); i+=2)
 	{
 		aw = dist[pars[i]][pars[i + 1]];
