@@ -27,7 +27,7 @@ int main()
 			if ((a[i] * a[j] != 0) && (a[i] != a[j]))
 			{
 				q.push(i);
-				int *dist = new int[n];
+				std::vector<unsigned int> dist(n, -1);
 				dist[i] = 0;
 				while (!q.empty())
 				{
@@ -40,7 +40,6 @@ int main()
 						}
 				}
 				aw = dist[j];
-				delete[] dist;
 				if (aw > 0 && aw < ans) ans = aw;
 			}
 	}
