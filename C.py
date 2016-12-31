@@ -1,53 +1,34 @@
+import queue
 n, m=map(int, input().split())
-a=[0]+list(map(int, input().split()))
-F=[[0]*(n+1) for i in range(n+1)]
+a=list(map(int, input().split()))
+F=[[0]*(n) for i in range(n)]
 for i in range(m):
     x, y=map(int, input().split())
-    F[x][y]=1
-    F[y][x]=1
-
+    F[x-1][y-1]=1
+    F[y-1][x-1]=1
 pars=[]
-for i in range(1, n+1):
-    for j in range(i, n+1):
-        if a[i]*a[j]!=0 and a[i]!= a[j]: pars.append((i, j))
+for i in range(n):
+    for j in range(i+1, n): 
+        if a[i]*a[j]!=0 and a[i]!= a[j]:
+            pars.append((i, j))
 
-lens=[]
-visited=[0]*(n+1)
-distanses=[[-1]*(n+1) for i in range(n+1)]
-for k in range(n+1):
-    distanses[k][k]=0
-def dfc(i, j):
-    if distanses[i][j]>=0:
-        return distanses[i][j]
-    ls=[]
-    for p in range(1, n+1):
-        if F[i][p]==1:
-            distanses[i][p]=distanses[p][i]=1
-            if visited[p]==0:
-                visited[p]=-2
-                ans=dfc(p, j)
-                if ans>=0:
-                    ls.append(ans+1)
-                    if distanses[i][j]>=0:
-                        t=min(ans, distanses[i][j])
-                    else:
-                        t=ans
-                    distanses[i][j]=distanses[j][i]=t+1
-                visited[p]=0
-    else:
-        if len(ls)>0:
-            q=min(ls)
-            distanses[i][j]=distanses[j][i]=q
-            return q
-        else:
-            return -2
-Ans=float("inf")
-for w in pars:
-    l=0    
-    lens.append(0)
-    visited=[0]*(n+1)
-    visited[w[0]]=-2
-    z=dfc(w[0], w[1])
-    if z>0:
-        Ans=min(z, Ans)
-print(Ans)
+dist=[[-1]*n for i in range(n)]
+for i in range(n):
+    dist[i][i]=0
+for k in pars:
+    i=k[0]
+    q=queue.Queue()
+    q.put(i)
+    while not q.empty():
+        u=q.get()
+        for v in range(n):
+            if F[u][v]==1 and dist[i][v]==-1:
+                dist[i][v]=dist[i][u]+1
+                q.put(v)
+ans=float("inf")
+for i in pars:
+    a=dist[i[0]][i[1]]
+    if a>0:
+        ans=min(ans, a)
+print(ans)
+
