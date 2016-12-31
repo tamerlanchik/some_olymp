@@ -12,7 +12,6 @@ int main()
 	unsigned int u;
 	unsigned int ans = 1000000000;
 	unsigned int aw;
-	unsigned int *dist = new unsigned int[n];
 	std::vector<unsigned int> *F = new std::vector<unsigned int>[n];
 	unsigned int x, y;
 	for (auto i = 0; i < m; i++)
@@ -28,20 +27,20 @@ int main()
 			if ((a[i] * a[j] != 0) && (a[i] != a[j]))
 			{
 				q.push(i);
-				for (auto l = 0; l < n; l++)
-					dist[l] = -1;
+				int *dist = new int[n];
 				dist[i] = 0;
 				while (!q.empty())
 				{
 					u = q.front(); q.pop();
 					for (auto v : F[u])
-						if (dist[v] == -1)
+						if (dist[v] <0)
 						{
 							dist[v] = dist[u] + 1;
 							q.push(v);
 						}
 				}
 				aw = dist[j];
+				delete[] dist;
 				if (aw > 0 && aw < ans) ans = aw;
 			}
 	}
