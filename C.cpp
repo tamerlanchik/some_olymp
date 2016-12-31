@@ -30,32 +30,30 @@ int main()
 	}
 
 
-	unsigned int *i=new unsigned int;
+
 	unsigned int u;
 	unsigned int ans = 1000000000;
 	unsigned int aw;
 	unsigned int *dist = new unsigned int[n];
-	std::queue<unsigned int> *q = new std::queue<unsigned int>;
+	std::queue<unsigned int> q;
 	for (auto k = 0; k < pars.size(); k += 2)
 	{
-		*i = pars[k];
-		
-		q->push(*i);
+		q.push(pars[k]);
 		for (auto l = 0; l < n; l++)
 			dist[l] = -1;
-		dist[*i] = 0;
-		while (!q->empty())
+		dist[pars[k]] = 0;
+		while (!q.empty())
 		{
-			u = q->front(); q->pop();
+			u = q.front(); q.pop();
 			for (auto v:F[u])
 				if (dist[v] == -1)
 				{
 					dist[v] = dist[u] + 1;
-					q->push(v);
+					q.push(v);
 				}
 		}
 		aw = dist[pars[k + 1]];
-		if (aw > 0) ans = std::min(ans, aw);
+		if (aw > 0 && aw < ans) ans = aw;
 	}
 
 	std::cout << ans;
