@@ -24,16 +24,20 @@ int main()
 			}
 	}
 	delete[] a;
-	vector<vector<bool>> F(n, vector<bool>(n, 0));
+	//vector<vector<bool>> F(n, vector<bool>(n, 0));
+	vector<unsigned int> *F = new vector<unsigned int>[n];
 	for (auto i = 0; i < m; i++)
 	{
 		cin >> x >> y;
-		F[x - 1][y - 1] = true;
-		F[y - 1][x - 1] = true;
+		F[x - 1].push_back(y - 1);
+		F[y - 1].push_back(x - 1);
 	}
+
 	vector<vector<unsigned int>> dist(n, vector<unsigned int>(n, -1));
+	//vector<unsigned int> *dist = new vector<unsigned int>(n) [n];
 	for (auto i = 0; i < n; i++)
 		dist[i][i] = 0;
+
 	unsigned int i;
 	for (auto k = 0; k < pars.size(); k += 2)
 	{
@@ -43,8 +47,8 @@ int main()
 		while (!q.empty())
 		{
 			unsigned int u = q.front(); q.pop();
-			for (unsigned int v = 0; v < n; v++)
-				if (F[u][v] == true && dist[i][v] == -1)
+			for (auto v:F[u])
+				if (dist[i][v] == -1)
 				{
 					dist[i][v] = dist[i][u] + 1;
 					q.push(v);
@@ -53,12 +57,11 @@ int main()
 	}
 	unsigned int ans = 1000000000;
 	unsigned int aw;
-	for (auto i = 0; i < pars.size(); i+=2)
+	for (auto i = 0; i < pars.size(); i += 2)
 	{
 		aw = dist[pars[i]][pars[i + 1]];
 		if (a > 0) ans = min(ans, aw);
 	}
 	cout << ans;
-	cin >> n;
 	return 0;
 }
