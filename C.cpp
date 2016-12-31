@@ -34,12 +34,13 @@ int main()
 	unsigned int u;
 	unsigned int ans = 1000000000;
 	unsigned int aw;
+	unsigned int *dist = new unsigned int[n];
+	std::queue<unsigned int> *q = new std::queue<unsigned int>;
 	for (auto k = 0; k < pars.size(); k += 2)
 	{
 		*i = pars[k];
-		std::queue<unsigned int> *q = new std::queue<unsigned int>;
+		
 		q->push(*i);
-		unsigned int *dist = new unsigned int [n];
 		for (auto l = 0; l < n; l++)
 			dist[l] = -1;
 		dist[*i] = 0;
@@ -55,10 +56,7 @@ int main()
 		}
 		aw = dist[pars[k + 1]];
 		if (aw > 0) ans = std::min(ans, aw);
-		delete q;
-		delete[] dist;
 	}
-	delete i;
 
 	std::cout << ans;
 	return 0;
