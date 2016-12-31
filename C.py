@@ -1,16 +1,18 @@
 import queue
 n, m=map(int, input().split())
 a=list(map(int, input().split()))
-F=[[0]*(n) for i in range(n)]
-for i in range(m):
-    x, y=map(int, input().split())
-    F[x-1][y-1]=1
-    F[y-1][x-1]=1
+
 pars=[]
 for i in range(n):
     for j in range(i+1, n): 
         if a[i]*a[j]!=0 and a[i]!= a[j]:
             pars.append((i, j))
+del a            
+F=[[] for i in range(n)]
+for i in range(m):
+    x, y=map(int, input().split())
+    F[x-1].append(y-1)
+    F[y-1].append(x-1)
 
 dist=[[-1]*n for i in range(n)]
 for i in range(n):
@@ -21,8 +23,8 @@ for k in pars:
     q.put(i)
     while not q.empty():
         u=q.get()
-        for v in range(n):
-            if F[u][v]==1 and dist[i][v]==-1:
+        for v in F[u]:
+            if dist[i][v]==-1:
                 dist[i][v]=dist[i][u]+1
                 q.put(v)
 ans=float("inf")
